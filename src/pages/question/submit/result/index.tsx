@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React, {useMemo, useRef} from "react";
 import {
   Button,
   Space,
@@ -10,25 +10,27 @@ import {
   Flex,
   Badge,
 } from "antd";
-import { ClockCircleOutlined, FilterOutlined, CodeOutlined, CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
-import { FaJava } from "react-icons/fa6";
-import { TbBrandCpp } from "react-icons/tb";
-import { FaGolang } from "react-icons/fa6";
-import { BsCpu } from "react-icons/bs";
-import { listQuestionSubmitByPageUsingPost } from "@/services/oj/questionSubmitController";
-import { history, useLocation } from "@umijs/max";
+import {
+  ClockCircleOutlined,
+  FilterOutlined,
+  CodeOutlined,
+  CheckCircleOutlined,
+  CloseCircleOutlined
+} from "@ant-design/icons";
+import {FaJava} from "react-icons/fa6";
+import {TbBrandCpp} from "react-icons/tb";
+import {FaGolang} from "react-icons/fa6";
+import {BsCpu} from "react-icons/bs";
+import {listQuestionSubmitByPageUsingPost} from "@/services/oj-question-service/questionController";
+import {history, useLocation} from "@umijs/max";
 
-import ProTable, { type ProColumns, type ActionType } from "@ant-design/pro-table";
+import ProTable, {type ProColumns, type ActionType} from "@ant-design/pro-table";
 import ProCard from "@ant-design/pro-card";
-import { PageContainer } from "@ant-design/pro-layout";
+import {PageContainer} from "@ant-design/pro-layout";
 
-import { formatId, formatDateTime } from "../../../../utils/utils";
+import {formatId, formatDateTime} from "@/utils/utils";
 
-// 代码高亮（可选，需要安装 react-syntax-highlighter）
-// import SyntaxHighlighter from 'react-syntax-highlighter';
-// import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-
-const { Text } = Typography;
+const {Text} = Typography;
 
 /**
  * 状态文本映射
@@ -44,31 +46,31 @@ const STATUS_TEXT: Record<number, string> = {
  * 状态颜色样式
  */
 const STATUS_STYLE: Record<number, { color: string; icon: React.ReactNode }> = {
-  0: { color: "#8c8c8c", icon: <Badge color="#8c8c8c" /> },
-  1: { color: "#1890ff", icon: <Badge color="#1890ff" /> },
-  2: { color: "#52c41a", icon: <CheckCircleOutlined style={{ color: "#52c41a" }} /> },
-  3: { color: "#ff4d4f", icon: <CloseCircleOutlined style={{ color: "#ff4d4f" }} /> },
+  0: {color: "#8c8c8c", icon: <Badge color="#8c8c8c"/>},
+  1: {color: "#1890ff", icon: <Badge color="#1890ff"/>},
+  2: {color: "#52c41a", icon: <CheckCircleOutlined style={{color: "#52c41a"}}/>},
+  3: {color: "#ff4d4f", icon: <CloseCircleOutlined style={{color: "#ff4d4f"}}/>},
 };
 
 /**
  * 语言筛选选项
  */
 const LANGUAGE_OPTIONS = [
-  { label: "全部", value: "" },
-  { label: "Java", value: "java" },
-  { label: "C++", value: "cpp" },
-  { label: "Go", value: "go" },
+  {label: "全部", value: ""},
+  {label: "Java", value: "java"},
+  {label: "C++", value: "cpp"},
+  {label: "Go", value: "go"},
 ];
 
 /**
  * 状态筛选选项
  */
 const STATUS_OPTIONS = [
-  { label: "全部", value: -1 },
-  { label: "待判题", value: 0 },
-  { label: "判题中", value: 1 },
-  { label: "通过", value: 2 },
-  { label: "错误", value: 3 },
+  {label: "全部", value: -1},
+  {label: "待判题", value: 0},
+  {label: "判题中", value: 1},
+  {label: "通过", value: 2},
+  {label: "错误", value: 3},
 ];
 
 // 工具函数已移至 utils.ts 文件中统一管理
@@ -97,9 +99,9 @@ const ResultPage: React.FC = () => {
 
   // 语言图标映射
   const languageIcons: Record<string, React.ReactNode> = {
-    java: <FaJava size={16} style={{ verticalAlign: 'middle', color: '#e67979' }} />,
-    cpp: <TbBrandCpp size={16} style={{ verticalAlign: 'middle', color: '#3d93d1' }} />,
-    go: <FaGolang size={16} style={{ verticalAlign: 'middle', color: '#79e6c9' }} />,
+    java: <FaJava size={16} style={{verticalAlign: 'middle', color: '#e67979'}}/>,
+    cpp: <TbBrandCpp size={16} style={{verticalAlign: 'middle', color: '#3d93d1'}}/>,
+    go: <FaGolang size={16} style={{verticalAlign: 'middle', color: '#79e6c9'}}/>,
   };
 
   /**
@@ -112,14 +114,14 @@ const ResultPage: React.FC = () => {
       width: 130,
       align: "center",
       render: (_, record) => (
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6}}>
           {STATUS_STYLE[record.status ?? 0]?.icon}
-          <Text strong style={{ color: STATUS_STYLE[record.status ?? 0]?.color }}>
+          <Text strong style={{color: STATUS_STYLE[record.status ?? 0]?.color}}>
             {STATUS_TEXT[record.status ?? 0]}
           </Text>
         </div>
       ),
-      filters: STATUS_OPTIONS.slice(1).map((opt) => ({ text: opt.label, value: opt.value })),
+      filters: STATUS_OPTIONS.slice(1).map((opt) => ({text: opt.label, value: opt.value})),
       onFilter: true,
     },
     {
@@ -147,7 +149,7 @@ const ResultPage: React.FC = () => {
           </Tag>
         );
       },
-      filters: LANGUAGE_OPTIONS.slice(1).map((opt) => ({ text: opt.label, value: opt.value })),
+      filters: LANGUAGE_OPTIONS.slice(1).map((opt) => ({text: opt.label, value: opt.value})),
       onFilter: true,
     },
     {
@@ -157,7 +159,7 @@ const ResultPage: React.FC = () => {
       align: "center",
       render: (_, record) => (
         <Space size={4}>
-          <ClockCircleOutlined style={{ color: "#1677ff" }} />
+          <ClockCircleOutlined style={{color: "#1677ff"}}/>
           <Text strong>{record?.judgeInfo?.time ?? "N/A"} ms</Text>
         </Space>
       ),
@@ -172,7 +174,7 @@ const ResultPage: React.FC = () => {
         const mb = memory ? (memory / (1024 * 1024)).toFixed(1) : "N/A";
         return (
           <Space size={4}>
-            <BsCpu style={{ color: "#1677ff" }} />
+            <BsCpu style={{color: "#1677ff"}}/>
             <Text strong>{mb} MB</Text>
           </Space>
         );
@@ -198,7 +200,7 @@ const ResultPage: React.FC = () => {
         <Button
           type="link"
           size="small"
-          icon={<CodeOutlined />}
+          icon={<CodeOutlined/>}
           onClick={(e) => {
             e.stopPropagation();
             history.push(`/question/submit/${formatId(record.questionId)}`);
@@ -218,24 +220,25 @@ const ResultPage: React.FC = () => {
           title={
             <Space>
               <Text strong>提交代码</Text>
-              <Tag color="blue" style={{ borderRadius: 12 }}>
+              <Tag color="blue" style={{borderRadius: 12}}>
                 {record.language?.toUpperCase() || "-"}
               </Tag>
             </Space>
           }
           content={
-            <div style={{ maxWidth: 600, maxHeight: 400, overflow: "auto", padding: 8 }}>
+            <div style={{maxWidth: 600, maxHeight: 400, overflow: "auto", padding: 8}}>
               {/* 可选：使用 react-syntax-highlighter 增强代码展示 */}
               {/* <SyntaxHighlighter language={record.language} style={a11yDark} wrapLines> */}
               {/*   {record.code || '(无代码)'} */}
               {/* </SyntaxHighlighter> */}
-              <pre style={{ margin: 0, fontSize: 12, lineHeight: 1.4, background: '#f5f5f5', padding: 12, borderRadius: 8 }}>
+              <pre
+                style={{margin: 0, fontSize: 12, lineHeight: 1.4, background: '#f5f5f5', padding: 12, borderRadius: 8}}>
                 <code>{record.code || "(无代码)"}</code>
               </pre>
             </div>
           }
           trigger="click"
-          overlayStyle={{ maxWidth: 700 }}
+          overlayStyle={{maxWidth: 700}}
         >
           <Button size="small" type="primary" ghost>
             查看代码
@@ -251,7 +254,7 @@ const ResultPage: React.FC = () => {
       align: "center",
       sorter: true,
       render: (text) => (
-        <Text type="secondary" style={{ fontSize: 13 }}>
+        <Text type="secondary" style={{fontSize: 13}}>
 
           {formatDateTime(text)}
         </Text>
@@ -271,7 +274,7 @@ const ResultPage: React.FC = () => {
           borderRadius: 12,
           boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
         }}
-        bodyStyle={{ padding: 0 }}
+        bodyStyle={{padding: 0}}
         bordered={false}
         hoverable
       >
@@ -326,12 +329,12 @@ const ResultPage: React.FC = () => {
                 borderRadius: 8,
                 boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
               }}
-              bodyStyle={{ padding: "12px 16px" }}
+              bodyStyle={{padding: "12px 16px"}}
             >
               <Flex gap="middle" align="center" wrap>
                 <Flex align="center" gap="small">
-                  <FilterOutlined style={{ color: "#1677ff", fontSize: 16 }} />
-                  <Text strong style={{ color: "#262626", fontSize: 14 }}>
+                  <FilterOutlined style={{color: "#1677ff", fontSize: 16}}/>
+                  <Text strong style={{color: "#262626", fontSize: 14}}>
                     筛选：
                   </Text>
                 </Flex>
@@ -374,7 +377,7 @@ const ResultPage: React.FC = () => {
                     setStatusFilter(-1);
                     actionRef.current?.reload();
                   }}
-                  style={{ color: "#8c8c8c", fontSize: 12 }}
+                  style={{color: "#8c8c8c", fontSize: 12}}
                 >
                   重置
                 </Button>
@@ -382,7 +385,7 @@ const ResultPage: React.FC = () => {
             </Card>,
           ]}
           size="middle"
-          scroll={{ x: "max-content" }}
+          scroll={{x: "max-content"}}
           tableStyle={{
             borderRadius: 12,
             background: "#fff",

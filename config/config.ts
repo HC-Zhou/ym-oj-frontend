@@ -151,9 +151,20 @@ export default defineConfig({
     // },
     {
       requestLibPath: "import { request } from '@umijs/max'",
-      schemaPath: 'http://localhost:8080/api/v2/api-docs',
-      projectName: 'oj',
+      schemaPath: 'http://localhost:8101/api/user/v2/api-docs',
+      projectName: 'oj-user-service',
     },
+    {
+      requestLibPath: "import { request } from '@umijs/max'",
+      schemaPath: 'http://localhost:8101/api/judge/v2/api-docs',
+      projectName: 'oj-judge-service',
+    },
+    {
+      requestLibPath: "import { request } from '@umijs/max'",
+      schemaPath: 'http://localhost:8101/api/question/v2/api-docs',
+      projectName: 'oj-question-service',
+    },
+
   ],
   mock: {
     include: ['mock/**/*', 'src/pages/**/_mock.ts'],

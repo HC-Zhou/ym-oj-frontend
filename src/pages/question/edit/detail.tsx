@@ -32,7 +32,7 @@ import {
   addQuestionUsingPost,
   editQuestionUsingPost,
   getQuestionVoByIdUsingGet,
-} from '@/services/oj/questionController';
+} from '@/services/oj-question-service/questionController';
 
 import {safeApiId, parseTags, parseJudgeConfig, parseJudgeCases} from '@/utils/utils';
 

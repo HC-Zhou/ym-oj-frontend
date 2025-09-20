@@ -1,5 +1,5 @@
 import { Footer } from '@/components';
-import { userLoginUsingPost, userRegisterUsingPost } from '@/services/oj/userController';
+import { userLoginUsingPost, userRegisterUsingPost } from '@/services/oj-user-service/userController';
 import { setToken } from '@/utils/auth';
 import {
   AlipayCircleOutlined,

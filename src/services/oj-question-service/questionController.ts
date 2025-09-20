@@ -47,6 +47,21 @@ export async function editQuestionUsingPost(
   });
 }
 
+/** 根据ID获取题目 根据题目ID获取题目的详细信息 GET /api/question/get */
+export async function getQuestionByIdUsingGet(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.getQuestionByIdUsingGETParams,
+  options?: { [key: string]: any }
+) {
+  return request<API.Question>("/api/question/get", {
+    method: "GET",
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
 /** 根据ID获取题目信息 根据题目ID获取题目的详细信息 GET /api/question/get/vo */
 export async function getQuestionVoByIdUsingGet(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
@@ -120,6 +135,57 @@ export async function listMyQuestionVoByPageUsingPost(
 ) {
   return request<API.BaseResponsePageQuestion_>(
     "/api/question/my/list/page/vo",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: body,
+      ...(options || {}),
+    }
+  );
+}
+
+/** 案例调试 用户提交测试用例进行代码调试 POST /api/question/question_submit/debug */
+export async function debugSubmitUsingPost(
+  body: API.DebugSubmitRequest,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseBoolean_>(
+    "/api/question/question_submit/debug",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: body,
+      ...(options || {}),
+    }
+  );
+}
+
+/** 提交题目 用户提交题目代码进行判题 POST /api/question/question_submit/do */
+export async function doQuestionSubmitUsingPost(
+  body: API.QuestionSubmitAddRequest,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseLong_>("/api/question/question_submit/do", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** 分页获取题目提交列表 分页获取题目提交列表（除了管理员外，普通用户只能看到非答案、提交代码等公开信息） POST /api/question/question_submit/list/page */
+export async function listQuestionSubmitByPageUsingPost(
+  body: API.QuestionSubmitQueryRequest,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponsePageQuestionSubmitVO_>(
+    "/api/question/question_submit/list/page",
     {
       method: "POST",
       headers: {

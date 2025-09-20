@@ -11,7 +11,7 @@ import React from 'react';
 import { flushSync } from 'react-dom';
 import { outLogin } from '@/services/ant-design-pro/api';
 import HeaderDropdown from '../HeaderDropdown';
-import {userLogoutUsingPost} from "@/services/oj/userController";
+import {userLogoutUsingPost} from "@/services/oj-user-service/userController";
 import {clearAuth} from "@/utils/auth";
 
 export type GlobalHeaderRightProps = {

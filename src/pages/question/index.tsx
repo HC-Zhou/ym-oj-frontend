@@ -6,7 +6,7 @@ import {
   UserOutlined,
   FilterOutlined,
 } from '@ant-design/icons';
-import {listQuestionSubmitStatusVoByPageUsingPost} from '@/services/oj/questionController';
+import {listQuestionSubmitStatusVoByPageUsingPost} from '@/services/oj-question-service/questionController';
 import ScorllBanner from '@/components/ScorllBanner';
 import {Drawer, Select, Button} from 'antd';
 import {history} from '@umijs/max';

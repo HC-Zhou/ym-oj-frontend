@@ -30,7 +30,7 @@ import {
 import {
   deleteQuestionUsingPost,
   listMyQuestionVoByPageUsingPost,
-} from '@/services/oj/questionController';
+} from '@/services/oj-question-service/questionController';
 import {history} from '@umijs/max';
 import {PageContainer} from '@ant-design/pro-components';
 
